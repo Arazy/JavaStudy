@@ -15,17 +15,15 @@ import java.net.Socket;
  */
 public class SocketClient {
 	
-	public static void main(String[] args) {
-		new SocketClient("127.0.0.1",1000);
-	}
-	
 	public SocketClient(String url, int port) {
 		try {
 			Socket client = new Socket(url, port);
 			OutputStream outToServer = client.getOutputStream();
 			DataOutputStream out = new DataOutputStream(outToServer);
-			InputStream inFromServer = client.getInputStream();
-			DataInputStream in = new DataInputStream(inFromServer);
+		    out.writeUTF("Hello from " + client.getLocalSocketAddress());
+		    InputStream inFromServer = client.getInputStream();
+		    DataInputStream in = new DataInputStream(inFromServer);
+		    System.out.println("·þÎñÆ÷ÏìÓ¦£º " + in.readUTF());
 			client.close();
 		} catch (IOException e) {
 			e.printStackTrace();

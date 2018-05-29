@@ -16,30 +16,18 @@ import java.util.concurrent.TimeUnit;
  * @date 2018.05.29
  */
 public class SocketServer {
-	
-	public static void main(String[] args) {
-		try {
-			new SocketServer(1000).run();
-		} catch (IOException e) {
-			// TODO 自动生成的 catch 块
-			e.printStackTrace();
-		}
-	}
-	
+
     private ThreadPoolExecutor pool;
     private ServerSocket serverSocket;
     
 	public SocketServer(int port) throws IOException{
 		serverSocket = new ServerSocket(port);
-	    serverSocket.setSoTimeout(10000);
 	}
 	
 	public void run() throws IOException{
 		pool = new ThreadPoolExecutor(10, 10000, 60, TimeUnit.MINUTES, new ArrayBlockingQueue<Runnable>(10));
 		while(true){
-			System.out.println("<<<<<<<<<<<<<<<<<<<<<");
 			Socket server = serverSocket.accept();
-			System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>");
 			pool.execute(new RunnableServer(server));
 		}
 	}
